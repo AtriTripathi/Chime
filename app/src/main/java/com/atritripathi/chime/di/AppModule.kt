@@ -2,6 +2,7 @@ package com.atritripathi.chime.di
 
 import android.content.Context
 import com.atritripathi.chime.R
+import com.atritripathi.chime.exoplayer.MusicServiceConnection
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -25,4 +26,9 @@ object AppModule {
             .error(R.drawable.ic_image)
             .diskCacheStrategy(DiskCacheStrategy.DATA)
     )
+
+    @Singleton
+    @Provides
+    fun provideMusicServiceConnection(@ApplicationContext context: Context) =
+        MusicServiceConnection(context)
 }
