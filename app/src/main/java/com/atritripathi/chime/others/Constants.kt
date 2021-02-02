@@ -8,4 +8,6 @@ object Constants {
     const val NOTIFICATION_CHANNEL_ID = "music"
 
     const val MEDIA_ROOT_ID = "media_root_id"
+
+    const val NETWORK_ERROR = "network_error"
 }

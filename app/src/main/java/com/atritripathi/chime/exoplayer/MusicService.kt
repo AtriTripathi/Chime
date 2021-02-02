@@ -12,6 +12,7 @@ import com.atritripathi.chime.exoplayer.callbacks.MusicPlaybackPreparer
 import com.atritripathi.chime.exoplayer.callbacks.MusicPlayerEventListener
 import com.atritripathi.chime.exoplayer.callbacks.MusicPlayerNotificationListener
 import com.atritripathi.chime.others.Constants.MEDIA_ROOT_ID
+import com.atritripathi.chime.others.Constants.NETWORK_ERROR
 import com.atritripathi.chime.others.Constants.SERVICE_TAG
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -131,6 +132,7 @@ class MusicService : MediaBrowserServiceCompat() {
                             isPlayerInitialized = true
                         }
                     } else {
+                        mediaSession.sendSessionEvent(NETWORK_ERROR, null)
                         result.sendResult(null)
                     }
                 }
