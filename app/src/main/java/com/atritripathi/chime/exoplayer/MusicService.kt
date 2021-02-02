@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.media.MediaBrowserServiceCompat
+import com.atritripathi.chime.exoplayer.callbacks.MusicPlayerNotificationListener
 import com.atritripathi.chime.others.Constants.SERVICE_TAG
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
@@ -24,10 +25,14 @@ class MusicService : MediaBrowserServiceCompat() {
     @Inject
     lateinit var exoPlayer: SimpleExoPlayer
 
+    private lateinit var musicNotificationManager: MusicNotificationManager
+
     private val serviceScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
+
+    var isForegroundService = false
 
     override fun onCreate() {
         super.onCreate()
@@ -42,6 +47,13 @@ class MusicService : MediaBrowserServiceCompat() {
 
         sessionToken = mediaSession.sessionToken
 
+        musicNotificationManager = MusicNotificationManager(this,
+            mediaSession.sessionToken,
+            MusicPlayerNotificationListener(this),
+        ) { // This lambda block will be executed, whenever the song changes.
+
+        }
+
         mediaSessionConnector = MediaSessionConnector(mediaSession)
         mediaSessionConnector.setPlayer(exoPlayer)
     }
@@ -51,7 +63,7 @@ class MusicService : MediaBrowserServiceCompat() {
         clientUid: Int,
         rootHints: Bundle?
     ): BrowserRoot? {
-        return null
+
     }
 
     override fun onLoadChildren(
